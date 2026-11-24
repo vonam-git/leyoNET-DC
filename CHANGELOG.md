@@ -11,6 +11,7 @@ Erste vollständige Version, spielbar auf <https://dc.leyonet.ch>.
 - Klassen mit Pseudonymen, Admin-Board mit Zwei-Faktor-Anmeldung, Löschfristen
 - Spielstände (Server oder Datei), Willkommensmenü, Hilfe, frei belegbare Tasten, Grafikstufen, Touch
 - Freies Bauen und Demo-Rechenzentrum mit Zugangscode
+- Startbildschirm mit Knopf «Projekt unterstützen» (Patreon)
 - Alle Adressen, Befehle und Verbindungen rechnet der leyoNET-Simulationskern
 
 Bekannte Grenzen: auf dem iPad und auf schwachen Grafikkarten noch wenig erprobt; Server im Rack haben noch keine Netzwerkports.
