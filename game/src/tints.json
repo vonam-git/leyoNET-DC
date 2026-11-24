@@ -1,0 +1,138 @@
+{
+ "boot_clear": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   25.7461,
+   28.0548,
+   32.7583
+  ]
+ },
+ "cable_blue": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   0.9362,
+   4.9219,
+   24.5687
+  ]
+ },
+ "cable_grey": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   11.7028,
+   12.7969,
+   14.7412
+  ]
+ },
+ "cable_yellow": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   28.0866,
+   20.672,
+   1.0919
+  ]
+ },
+ "desk_hpl": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   19.6607,
+   20.672,
+   21.8389
+  ]
+ },
+ "device_dark": {
+  "map": "Metal027_1024_Color",
+  "tint": [
+   1.369,
+   1.481,
+   1.1659
+  ]
+ },
+ "floor_marking": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   32.7678,
+   25.5939,
+   2.1839
+  ]
+ },
+ "keycap": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   0.8426,
+   0.8859,
+   1.0919
+  ]
+ },
+ "label_white": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   37.4489,
+   39.3752,
+   42.5858
+  ]
+ },
+ "plastic_grey": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   4.6811,
+   4.9219,
+   6.0057
+  ]
+ },
+ "port_vga": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   0.9362,
+   2.461,
+   9.8275
+  ]
+ },
+ "rack_powder": {
+  "map": "Metal027_1024_Color",
+  "tint": [
+   1.7112,
+   1.84,
+   1.418
+  ]
+ },
+ "sign_housing": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   37.4489,
+   39.3752,
+   42.5858
+  ]
+ },
+ "switch_white": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   36.5126,
+   38.3908,
+   41.4939
+  ]
+ },
+ "tape": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   19.6607,
+   14.7657,
+   6.5517
+  ]
+ },
+ "touch_glass": {
+  "map": "Plastic012A_1024_Color",
+  "tint": [
+   4.213,
+   4.5281,
+   5.3505
+  ]
+ },
+ "window_alu": {
+  "map": "Metal009_1024_Color",
+  "tint": [
+   1.8408,
+   1.8464,
+   1.8037
+  ]
+ }
+}

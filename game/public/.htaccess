@@ -1,0 +1,36 @@
+# leyoNET-DC - Apache/Plesk (statische Seite aus game/dist). Konzept Kap. 8-10:
+# kein externes CDN, Sicherheits-Header, Hash-Dateien lange cachen, Brotli/Gzip.
+
+# MIME-Typen fuer 3D-Assets und Decoder (WASM muss application/wasm sein)
+AddType application/wasm .wasm
+AddType model/gltf-binary .glb
+AddType image/ktx2 .ktx2
+AddType application/javascript .js .mjs
+
+<IfModule mod_headers.c>
+  # three.js-Decoder (Draco, Basis/KTX2) laufen als WASM in Blob-Workern
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' blob: data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'none'"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Strict-Transport-Security "max-age=31536000"
+
+  # index.html nie cachen (verweist auf die Hash-Namen), Hash-Dateien 1 Jahr
+  <FilesMatch "^(index|admin)\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <If "%{REQUEST_URI} =~ m#/assets/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  ExpiresByType application/wasm "access plus 30 days"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json application/wasm image/svg+xml
+</IfModule>
+
+Options -Indexes

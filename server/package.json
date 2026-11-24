@@ -1,0 +1,17 @@
+{
+  "name": "leyonet-dc-server",
+  "private": true,
+  "description": "Server von leyoNET DC: Klassen, Pseudonyme, Ergebnisse, Admin-Board. Ohne Abhaengigkeiten.",
+  "license": "AGPL-3.0-or-later",
+  "type": "commonjs",
+  "main": "start.cjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node start.cjs",
+    "test": "node --test app.test.mjs"
+  },
+  "version": "1.0.0",
+  "author": "Mark v. A. (https://vonam.ch)"
+}

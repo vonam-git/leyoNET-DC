@@ -1,0 +1,473 @@
+{
+ "kit": "kit",
+ "version": 1,
+ "coords": "glTF (y up, -z = Blender +y)",
+ "templates": [
+  {
+   "node": "kit_rack",
+   "type": "rack",
+   "he": 42,
+   "ports": {},
+   "leds": [],
+   "parts": [
+    {
+     "node": "kit_rack_pdu_0u_R",
+     "type": "pdu_0u",
+     "he": 0,
+     "ports": {
+      "01": "power",
+      "02": "power",
+      "03": "power",
+      "04": "power",
+      "05": "power",
+      "06": "power",
+      "07": "power",
+      "08": "power",
+      "09": "power",
+      "10": "power",
+      "11": "power",
+      "12": "power",
+      "13": "power",
+      "14": "power",
+      "15": "power",
+      "16": "power",
+      "17": "power",
+      "18": "power",
+      "19": "power",
+      "20": "power",
+      "21": "power",
+      "22": "power",
+      "23": "power",
+      "24": "power"
+     },
+     "leds": [
+      "ok"
+     ],
+     "suffix": "pdu_0u_R"
+    },
+    {
+     "node": "kit_rack_pdu_0u_L",
+     "type": "pdu_0u",
+     "he": 0,
+     "ports": {
+      "01": "power",
+      "02": "power",
+      "03": "power",
+      "04": "power",
+      "05": "power",
+      "06": "power",
+      "07": "power",
+      "08": "power",
+      "09": "power",
+      "10": "power",
+      "11": "power",
+      "12": "power",
+      "13": "power",
+      "14": "power",
+      "15": "power",
+      "16": "power",
+      "17": "power",
+      "18": "power",
+      "19": "power",
+      "20": "power",
+      "21": "power",
+      "22": "power",
+      "23": "power",
+      "24": "power"
+     },
+     "leds": [
+      "ok"
+     ],
+     "suffix": "pdu_0u_L"
+    }
+   ],
+   "z_u1": 0.09000000000000001,
+   "y_front_rail": 0.1,
+   "y_rear_rail": 0.84,
+   "u": 0.04445,
+   "slots": 42,
+   "width": 0.6,
+   "height": 2.0,
+   "depth": 1.0,
+   "mount_gltf": [
+    0.0,
+    0.09000000000000001,
+    -0.1
+   ]
+  },
+  {
+   "node": "kit_switch",
+   "type": "switch_24_d300",
+   "he": 1,
+   "ports": {
+    "01": "rj45",
+    "02": "rj45",
+    "03": "rj45",
+    "04": "rj45",
+    "05": "rj45",
+    "06": "rj45",
+    "07": "rj45",
+    "08": "rj45",
+    "09": "rj45",
+    "10": "rj45",
+    "11": "rj45",
+    "12": "rj45",
+    "13": "rj45",
+    "14": "rj45",
+    "15": "rj45",
+    "16": "rj45",
+    "17": "rj45",
+    "18": "rj45",
+    "19": "rj45",
+    "20": "rj45",
+    "21": "rj45",
+    "22": "rj45",
+    "23": "rj45",
+    "24": "rj45",
+    "25": "sfp",
+    "26": "sfp",
+    "27": "sfp",
+    "28": "sfp",
+    "con": "console",
+    "mgmt": "rj45",
+    "psu": "power"
+   },
+   "leds": [
+    "fan",
+    "mgmt",
+    "p01",
+    "p02",
+    "p03",
+    "p04",
+    "p05",
+    "p06",
+    "p07",
+    "p08",
+    "p09",
+    "p10",
+    "p11",
+    "p12",
+    "p13",
+    "p14",
+    "p15",
+    "p16",
+    "p17",
+    "p18",
+    "p19",
+    "p20",
+    "p21",
+    "p22",
+    "p23",
+    "p24",
+    "p25",
+    "p26",
+    "p27",
+    "p28",
+    "poe",
+    "pwr",
+    "sys"
+   ],
+   "depth": 0.3
+  },
+  {
+   "node": "kit_coreswitch",
+   "type": "coreswitch_24_d300",
+   "he": 1,
+   "ports": {
+    "01": "rj45",
+    "02": "rj45",
+    "03": "rj45",
+    "04": "rj45",
+    "05": "rj45",
+    "06": "rj45",
+    "07": "rj45",
+    "08": "rj45",
+    "09": "rj45",
+    "10": "rj45",
+    "11": "rj45",
+    "12": "rj45",
+    "13": "rj45",
+    "14": "rj45",
+    "15": "rj45",
+    "16": "rj45",
+    "17": "rj45",
+    "18": "rj45",
+    "19": "rj45",
+    "20": "rj45",
+    "21": "rj45",
+    "22": "rj45",
+    "23": "rj45",
+    "24": "rj45",
+    "25": "sfp",
+    "26": "sfp",
+    "27": "sfp",
+    "28": "sfp",
+    "con": "console",
+    "mgmt": "rj45",
+    "psu": "power"
+   },
+   "leds": [
+    "fan",
+    "mgmt",
+    "p01",
+    "p02",
+    "p03",
+    "p04",
+    "p05",
+    "p06",
+    "p07",
+    "p08",
+    "p09",
+    "p10",
+    "p11",
+    "p12",
+    "p13",
+    "p14",
+    "p15",
+    "p16",
+    "p17",
+    "p18",
+    "p19",
+    "p20",
+    "p21",
+    "p22",
+    "p23",
+    "p24",
+    "p25",
+    "p26",
+    "p27",
+    "p28",
+    "poe",
+    "pwr",
+    "sys"
+   ],
+   "depth": 0.3
+  },
+  {
+   "node": "kit_patchpanel",
+   "type": "patchpanel_24",
+   "he": 1,
+   "ports": {
+    "01": "keystone",
+    "02": "keystone",
+    "03": "keystone",
+    "04": "keystone",
+    "05": "keystone",
+    "06": "keystone",
+    "07": "keystone",
+    "08": "keystone",
+    "09": "keystone",
+    "10": "keystone",
+    "11": "keystone",
+    "12": "keystone",
+    "13": "keystone",
+    "14": "keystone",
+    "15": "keystone",
+    "16": "keystone",
+    "17": "keystone",
+    "18": "keystone",
+    "19": "keystone",
+    "20": "keystone",
+    "21": "keystone",
+    "22": "keystone",
+    "23": "keystone",
+    "24": "keystone"
+   },
+   "leds": [],
+   "depth": 0.11
+  },
+  {
+   "node": "kit_server",
+   "type": "server_1u_d700",
+   "he": 1,
+   "ports": {
+    "psu": "power"
+   },
+   "leds": [
+    "bay01",
+    "bay02",
+    "bay03",
+    "bay04",
+    "bay05",
+    "bay06",
+    "bay07",
+    "bay08",
+    "fault",
+    "health",
+    "nic1",
+    "nic2",
+    "nic3",
+    "nic4",
+    "psu1",
+    "psu2",
+    "pwr"
+   ],
+   "depth": 0.7
+  },
+  {
+   "node": "kit_router",
+   "type": "router_1u",
+   "he": 1,
+   "ports": {
+    "01": "rj45",
+    "02": "rj45",
+    "03": "rj45",
+    "04": "rj45",
+    "con": "console",
+    "psu": "power"
+   },
+   "leds": [
+    "p01",
+    "p02",
+    "p03",
+    "p04",
+    "pwr",
+    "sys"
+   ],
+   "depth": 0.3
+  },
+  {
+   "node": "kit_firewall",
+   "type": "firewall_1u",
+   "he": 1,
+   "ports": {
+    "01": "rj45",
+    "02": "rj45",
+    "03": "rj45",
+    "04": "rj45",
+    "con": "console",
+    "psu": "power"
+   },
+   "leds": [
+    "p01",
+    "p02",
+    "p03",
+    "p04",
+    "pwr",
+    "sys"
+   ],
+   "depth": 0.3
+  },
+  {
+   "node": "kit_kvm",
+   "type": "kvm_1u",
+   "he": 1,
+   "ports": {
+    "psu": "power"
+   },
+   "leds": [
+    "pwr"
+   ],
+   "depth": 0.6
+  },
+  {
+   "node": "kit_blank_1u",
+   "type": "blank_1u",
+   "he": 1,
+   "ports": {},
+   "leds": [],
+   "depth": 0.0015
+  },
+  {
+   "node": "kit_blank_2u",
+   "type": "blank_2u",
+   "he": 2,
+   "ports": {},
+   "leds": [],
+   "depth": 0.0015
+  },
+  {
+   "node": "kit_pdu_1u",
+   "type": "pdu_1u_o8",
+   "he": 1,
+   "ports": {
+    "01": "power",
+    "02": "power",
+    "03": "power",
+    "04": "power",
+    "05": "power",
+    "06": "power",
+    "07": "power",
+    "08": "power"
+   },
+   "leds": [
+    "ok",
+    "switch"
+   ],
+   "depth": 0.2
+  },
+  {
+   "node": "kit_notebook",
+   "type": "notebook",
+   "he": 0,
+   "ports": {
+    "01": "rj45",
+    "con": "console"
+   },
+   "leds": [
+    "pwr"
+   ],
+   "footprint": [
+    0.33,
+    0.23
+   ]
+  },
+  {
+   "node": "kit_bench",
+   "type": "bench",
+   "he": 6,
+   "ports": {},
+   "leds": [],
+   "z_u1": 0.041,
+   "y_front_rail": 0.02,
+   "y_rear_rail": 0.41000000000000003,
+   "u": 0.04445,
+   "slots": 6,
+   "width": 0.54,
+   "height": 0.33770000000000006,
+   "depth": 0.45,
+   "mount_gltf": [
+    0.0,
+    0.041,
+    -0.02
+   ]
+  },
+  {
+   "node": "kit_desk_strip",
+   "type": "desk_strip_8",
+   "he": 0,
+   "ports": {
+    "01": "power",
+    "02": "power",
+    "03": "power",
+    "04": "power",
+    "05": "power",
+    "06": "power",
+    "07": "power",
+    "08": "power"
+   },
+   "leds": [
+    "ok",
+    "switch"
+   ],
+   "depth": 0.048
+  },
+  {
+   "node": "kit_table_outlet",
+   "type": "table_outlet_8",
+   "he": 0,
+   "ports": {
+    "01": "keystone",
+    "02": "keystone",
+    "03": "keystone",
+    "04": "keystone",
+    "05": "keystone",
+    "06": "keystone",
+    "07": "keystone",
+    "08": "keystone"
+   },
+   "leds": [],
+   "depth": 0.055
+  }
+ ]
+}

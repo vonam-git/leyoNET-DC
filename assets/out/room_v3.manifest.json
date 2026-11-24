@@ -1,0 +1,203 @@
+{
+ "room": "room_v3",
+ "version": 3,
+ "devices": [],
+ "slots": [
+  {
+   "node": "slot_rack_1",
+   "kind": "rack",
+   "index": 1,
+   "row": "A",
+   "pos": [
+    1.9,
+    0.0,
+    -2.0
+   ],
+   "yaw": 3.141593
+  },
+  {
+   "node": "slot_rack_2",
+   "kind": "rack",
+   "index": 2,
+   "row": "A",
+   "pos": [
+    2.5,
+    0.0,
+    -2.0
+   ],
+   "yaw": 3.141593
+  },
+  {
+   "node": "slot_rack_3",
+   "kind": "rack",
+   "index": 3,
+   "row": "A",
+   "pos": [
+    3.1,
+    0.0,
+    -2.0
+   ],
+   "yaw": 3.141593
+  },
+  {
+   "node": "slot_rack_4",
+   "kind": "rack",
+   "index": 4,
+   "row": "A",
+   "pos": [
+    3.7,
+    0.0,
+    -2.0
+   ],
+   "yaw": 3.141593
+  },
+  {
+   "node": "slot_rack_5",
+   "kind": "rack",
+   "index": 5,
+   "row": "B",
+   "pos": [
+    1.9,
+    0.0,
+    -3.2
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_rack_6",
+   "kind": "rack",
+   "index": 6,
+   "row": "B",
+   "pos": [
+    2.5,
+    0.0,
+    -3.2
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_rack_7",
+   "kind": "rack",
+   "index": 7,
+   "row": "B",
+   "pos": [
+    3.1,
+    0.0,
+    -3.2
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_rack_8",
+   "kind": "rack",
+   "index": 8,
+   "row": "B",
+   "pos": [
+    3.7,
+    0.0,
+    -3.2
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_nb_1",
+   "kind": "notebook",
+   "index": 1,
+   "row": "",
+   "pos": [
+    5.5,
+    0.74,
+    -4.67
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_nb_2",
+   "kind": "notebook",
+   "index": 2,
+   "row": "",
+   "pos": [
+    6.0,
+    0.74,
+    -4.67
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_nb_3",
+   "kind": "notebook",
+   "index": 3,
+   "row": "",
+   "pos": [
+    6.5,
+    0.74,
+    -4.67
+   ],
+   "yaw": 0.0
+  },
+  {
+   "node": "slot_fix_bench",
+   "kind": "fixed",
+   "index": 1,
+   "row": "",
+   "pos": [
+    7.12,
+    0.74,
+    -4.45
+   ],
+   "yaw": 0.0,
+   "vorlage": "kit_bench"
+  },
+  {
+   "node": "slot_fix_outlet",
+   "kind": "fixed",
+   "index": 1,
+   "row": "",
+   "pos": [
+    5.2,
+    0.74,
+    -5.12
+   ],
+   "yaw": 0.0,
+   "vorlage": "kit_table_outlet"
+  },
+  {
+   "node": "slot_fix_strip",
+   "kind": "fixed",
+   "index": 1,
+   "row": "",
+   "pos": [
+    6.22,
+    0.74,
+    -5.12
+   ],
+   "yaw": 0.0,
+   "vorlage": "kit_desk_strip"
+  }
+ ],
+ "trays": {
+  "z": 2.35,
+  "rows": {
+   "A": -1.5,
+   "B": -3.7
+  },
+  "cross_x": 4.3,
+  "pole": [
+   4.9,
+   -5.24
+  ],
+  "power": {
+   "z": 2.875,
+   "taps": {
+    "A": [
+     1.42,
+     -1.396
+    ],
+    "B": [
+     1.42,
+     -3.804
+    ]
+   }
+  }
+ }
+}

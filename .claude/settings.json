@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(blender *)",
+      "Bash(xvfb-run *)",
+      "Bash(npx gltf-transform *)",
+      "Bash(python3 *)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:origin develop)",
+      "Read(*)",
+      "Write(blender/**)",
+      "Write(assets/**)"
+    ]
+  }
+}

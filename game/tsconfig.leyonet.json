@@ -1,0 +1,16 @@
+{
+  // TypeScript-Optionen fuer den eingebundenen leyoNET-Kern (vendor/leyonet/src/core).
+  // Spiegelt leyoNETs tsconfig.core.json; dessen tsconfig.json erweitert @tsconfig/svelte, das im
+  // Submodul nicht installiert ist - darum zeigt vite.config.js (Option `tsconfig`) hierher.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["../vendor/leyonet/src/core/**/*.ts"]
+}

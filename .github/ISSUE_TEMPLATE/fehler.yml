@@ -1,0 +1,14 @@
+name: Fehler melden
+description: Etwas funktioniert nicht wie erwartet
+labels: [bug]
+body:
+  - type: input
+    attributes: { label: Version, description: "Im Spiel unten rechts oder Menü → Version", placeholder: "1.0.0" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Gerät und Browser, placeholder: "Windows 11, Firefox 140" }
+  - type: textarea
+    attributes: { label: "Was ist passiert?", description: "Level, Schritte, was du erwartet hast. Keine Namen und keine echten Passwörter." }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: Spielstand oder Bild, description: "Menü → Spielstand speichern → als Datei (ohne echte Passwörter)" }

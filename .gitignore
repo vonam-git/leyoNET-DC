@@ -1,0 +1,35 @@
+node_modules/
+blender/render/
+*.blend1
+*.tmp
+.env
+assets/src/mixamo/
+*.raw.glb
+*.opt.glb
+__pycache__/
+assets/build/
+assets/src/ambientcg/
+assets/textures/
+
+# Server (Plan v4 F): gebuendelter Kern (npm run build:server) + Laufzeitdaten
+server/kern.cjs
+server/data/
+
+# Arbeitsblaetter + Loesungen (PDF): nur lokal, nie auf dc.leyonet.ch (User 2026-11-24)
+/arbeitsblaetter/
+
+# Werbevideo (Rohbilder + Filme): nur lokal
+/werbung/
+
+# Aufgeraeumt fuer v1.0.0: bleibt lokal, gehoert nicht ins Repo
+# - Figur (Mixamo): darf in Projekten benutzt, aber nicht als Datei weitergegeben werden
+assets/out/character.glb
+# - alte Testraeume
+assets/out/test_*
+# - Referenzfotos ohne Quelle (Bilder mit Quelle: docs/refs/ref_*.jpg, SOURCES.md)
+docs/refs/*
+!docs/refs/ref_*.jpg
+!docs/refs/SOURCES.md
+
+# Musterloesungen der Verbundaufgaben (nicht oeffentlich): privat/verbund-loesung.js -> node privat/erzeugen.mjs -> privat/loesungen.json
+/privat/

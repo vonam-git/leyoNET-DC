@@ -1,0 +1,80 @@
+# Spiel-Checks + Build bei jedem Push auf develop und jedem PR (inkl. Bot-PRs des leyoNET-Syncs).
+name: CI
+on:
+  push:
+    branches: [develop]
+  pull_request: {}
+  workflow_dispatch: {}   # Knopf erscheint erst, wenn diese Datei auch auf main liegt
+jobs:
+  game:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+      - run: npm ci --no-audit --no-fund
+        working-directory: game
+      - name: Musterloesungen (Secret, fehlt bei Forks -> diese Tests werden uebersprungen)
+        env:
+          DC_LOESUNGEN_JSON: ${{ secrets.DC_LOESUNGEN }}
+        run: if [ -n "$DC_LOESUNGEN_JSON" ]; then mkdir -p privat && printf '%s' "$DC_LOESUNGEN_JSON" > privat/loesungen.json; fi
+      - name: Herkunfts-Bot (Quellen + Lizenzen)
+        run: node scripts/herkunft-bot.mjs --check
+      - run: npm run check
+        working-directory: game
+      - run: npm run build
+        working-directory: game
+      - name: Server (Plan v4 F) bauen + testen
+        run: |
+          npm --prefix game run build:server
+          node --test server/*.test.mjs
+
+  # Deploy develop -> dev-dc als PULL (Entscheid 2026-11-20, Variante A): Port 22 des Servers ist fuer
+  # GitHub gesperrt und bleibt es. Die CI legt den Build als Release-Asset "dev-latest" ab, der Server
+  # holt ihn per Plesk-Cron (scripts/dev-dc-pull.sh, HTTPS ausgehend) - kein SSH, keine Secrets hier.
+  deploy-dev:
+    needs: game
+    if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency: deploy-dev
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+      - name: Build
+        working-directory: game
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          npm run build:server
+          echo "${GITHUB_SHA::7} $(date -u +%FT%TZ)" > dist/version.txt
+      - name: Paket
+        run: |
+          tar -czf dev-dc.tar.gz -C game/dist .
+          sha256sum dev-dc.tar.gz > dev-dc.tar.gz.sha256
+          tar -czf dev-dc-server.tar.gz -C server app.cjs start.cjs replay-worker.cjs kern.cjs package.json
+          sha256sum dev-dc-server.tar.gz > dev-dc-server.tar.gz.sha256
+          cp game/dist/version.txt version.txt
+          cat version.txt; ls -la dev-dc.tar.gz
+      - name: Release dev-latest aktualisieren
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view dev-latest >/dev/null 2>&1 \
+            || gh release create dev-latest --prerelease --target "$GITHUB_SHA" --title "dev-dc (develop)" \
+                 --notes "Automatischer Build von develop fuer dev-dc.leyonet.ch. Wird bei jedem Lauf ersetzt."
+          # Paket zuerst, version.txt zuletzt: der Server laedt erst, wenn sich version.txt aendert
+          gh release upload dev-latest dev-dc.tar.gz dev-dc.tar.gz.sha256 dev-dc-server.tar.gz dev-dc-server.tar.gz.sha256 --clobber
+          gh release upload dev-latest version.txt --clobber

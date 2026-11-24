@@ -1,0 +1,35 @@
+# leyoNET-Sync-Bot: holt taeglich (und auf Knopfdruck) den neuesten leyoNET-Kern (develop) ins Spiel,
+# prueft ihn und oeffnet einen PR auf develop. Logik: scripts/leyonet-sync.sh
+# Voraussetzung (Repo-Einstellung): Settings -> Actions -> General -> "Allow GitHub Actions to create
+# and approve pull requests" einschalten.
+name: leyoNET-Sync
+on:
+  schedule:
+    - cron: '15 4 * * *'        # taeglich 04:15 UTC
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [leyonet-updated]    # optional: leyoNET kann den Abgleich nach einem Push ausloesen
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: leyonet-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+          submodules: recursive
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+      - name: Abgleich, Checks, PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: scripts/leyonet-sync.sh

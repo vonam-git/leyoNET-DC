@@ -1,0 +1,6 @@
+{
+  "name": "kit",
+  "raw_glb": "assets/out/kit.raw.glb",
+  "lightmaps": "none (Bausatz)",
+  "optimize": "npx gltf-transform optimize assets/out/kit.raw.glb assets/out/kit.opt.glb --compress false --texture-compress false --join false --palette false --instance false && nice -n 19 npx gltf-transform uastc assets/out/kit.opt.glb assets/out/kit.opt.glb --slots normalTexture --level 2 --zstd 18 --jobs 2 && nice -n 19 npx gltf-transform etc1s assets/out/kit.opt.glb assets/out/kit.opt.glb --slots '!normalTexture' --jobs 2 && npx gltf-transform draco assets/out/kit.opt.glb assets/out/kit.glb && rm assets/out/kit.opt.glb"
+}

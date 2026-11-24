@@ -1,0 +1,38 @@
+{
+  "_": "Register fuer den Herkunfts-Bot (scripts/herkunft-bot.mjs). Von Hand gepflegt: neue Textur, Datei, Quelle oder Adresse hier eintragen. Erzeugt werden docs/HERKUNFT.md und game/src/herkunft.json.",
+  "erlaubt": ["MIT", "ISC", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0", "0BSD", "CC0-1.0", "AGPL-3.0-or-later"],
+  "erlaubt_werkzeuge": ["MPL-2.0"],
+  "submodule": {
+    "pfad": "vendor/leyonet", "url": "https://github.com/vonam-git/leyoNET.git", "lizenz": "AGPL-3.0-or-later",
+    "lizenzdatei_enthaelt": "GNU AFFERO GENERAL PUBLIC LICENSE",
+    "benutzt": ["src/core/", "src/ui/deviceIcons.ts", "src/ui/qr.ts", "branding/leyoNET.svg", "branding/favicon.svg"],
+    "zweck": "Simulationskern, Gerätesymbole, QR-Code, Logo (Name und Logo sind nicht Teil der AGPL)"
+  },
+  "software": [
+    { "name": "Draco-Decoder", "quelle": "https://github.com/google/draco", "lizenz": "Apache-2.0", "zweck": "3D-Geometrie entpacken (kommt mit three.js)", "dateien": ["game/node_modules/three/examples/jsm/libs/draco/README.md"] },
+    { "name": "Basis-Universal-Decoder", "quelle": "https://github.com/BinomialLLC/basis_universal", "lizenz": "Apache-2.0", "zweck": "Texturen entpacken (kommt mit three.js)", "dateien": ["game/node_modules/three/examples/jsm/libs/basis/README.md"] }
+  ],
+  "npm_zweck": { "three": "3D-Darstellung" },
+  "texturen": {
+    "quelle": "https://ambientcg.com", "lizenz": "CC0-1.0", "lizenz_url": "https://docs.ambientcg.com/license/",
+    "sets": {
+      "Cardboard004": "Karton", "Concrete030": "Betonwände", "Fabric030": "Stoff Bürostuhl", "Fingerprints002": "Fingerabdrücke",
+      "Metal009": "gebürsteter Stahl", "Metal027": "lackierter Stahl, Racks", "PaintedMetal004": "Feuerlöscher",
+      "PaintedPlaster017": "Decke", "PavingStones070": "Pflaster draussen", "Plastic012A": "Kunststoffe, Tisch",
+      "Plastic018A": "Doppelboden", "SheetMetal002": "Lochplatten", "Smear004": "Glas", "SurfaceImperfections015": "Laufspuren"
+    }
+  },
+  "dateien": [
+    { "muster": "^assets/out/(room_v3|kit)\\.(glb|bake\\.json|manifest\\.json|kit\\.json)$", "titel": "3D-Raum und Gerätebausatz", "herkunft": "eigene Modelle, mit Blender-Skripten (blender/) erzeugt", "lizenz": "AGPL-3.0-or-later", "ausgeliefert": true },
+    { "muster": "^game/public/favicon\\.svg$", "titel": "Favicon", "herkunft": "leyoNET, branding/favicon.svg (eigene Gestaltung von Mark)", "lizenz": "Marke leyoNET, nicht Teil der AGPL", "ausgeliefert": true },
+    { "muster": "^game/public/lizenzen\\.txt$", "titel": "Lizenztexte", "herkunft": "erzeugt vom Herkunfts-Bot aus den installierten Paketen", "lizenz": "Lizenztexte der Pakete", "ausgeliefert": true },
+    { "muster": "^game/public/\\.htaccess$", "titel": "Server-Einstellungen", "herkunft": "eigene Datei", "lizenz": "AGPL-3.0-or-later", "ausgeliefert": true },
+    { "muster": "^docs/refs/ref_network_aisle_front\\.jpg$", "titel": "Referenzfoto Rack-Reihe, Robert.Harker", "herkunft": "https://commons.wikimedia.org/wiki/File:Network_Aisle_Front.jpg", "lizenz": "CC BY-SA 3.0", "ausgeliefert": false },
+    { "muster": "^docs/refs/ref_pdc_server_room\\.jpg$", "titel": "Referenzfoto PDC-Serverraum, Esquilo", "herkunft": "https://commons.wikimedia.org/wiki/File:PDC_server_room.jpg", "lizenz": "CC BY-SA 3.0", "ausgeliefert": false },
+    { "muster": "^docs/refs/ref_312_adelaide_server_room\\.jpg$", "titel": "Referenzfoto Büro-Serverraum, Mike Beltzner", "herkunft": "https://commons.wikimedia.org/wiki/File:312_Adelaide_Street_-_6th_floor_server_room_(5278379952).jpg", "lizenz": "CC BY-SA 2.0", "ausgeliefert": false },
+    { "muster": "^docs/refs/SOURCES\\.md$", "titel": "Quellenliste der Referenzfotos", "herkunft": "eigene Datei", "lizenz": "AGPL-3.0-or-later", "ausgeliefert": false }
+  ],
+  "links": {
+    "github.com": "Quelltext", "patreon.com": "Unterstützung", "vonam.ch": "Entwickler", "leyonet.ch": "Projektseite", "www.w3.org": "XML-Namensraum (kein Abruf)"
+  }
+}

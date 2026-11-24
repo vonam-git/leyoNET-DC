@@ -1,0 +1,114 @@
+{
+ "software": [
+  {
+   "was": "three",
+   "zweck": "3D-Darstellung",
+   "quelle": "https://www.npmjs.com/package/three",
+   "lizenz": "MIT"
+  },
+  {
+   "was": "Draco-Decoder",
+   "zweck": "3D-Geometrie entpacken (kommt mit three.js)",
+   "quelle": "https://github.com/google/draco",
+   "lizenz": "Apache-2.0"
+  },
+  {
+   "was": "Basis-Universal-Decoder",
+   "zweck": "Texturen entpacken (kommt mit three.js)",
+   "quelle": "https://github.com/BinomialLLC/basis_universal",
+   "lizenz": "Apache-2.0"
+  },
+  {
+   "was": "leyoNET",
+   "zweck": "Simulationskern, Gerätesymbole, QR-Code, Logo (Name und Logo sind nicht Teil der AGPL)",
+   "quelle": "https://github.com/vonam-git/leyoNET",
+   "lizenz": "AGPL-3.0-or-later"
+  },
+  {
+   "was": "3D-Raum und Gerätebausatz",
+   "zweck": "",
+   "quelle": "eigene Modelle, mit Blender-Skripten (blender/) erzeugt",
+   "lizenz": "AGPL-3.0-or-later"
+  },
+  {
+   "was": "Favicon",
+   "zweck": "",
+   "quelle": "leyoNET, branding/favicon.svg (eigene Gestaltung von Mark)",
+   "lizenz": "Marke leyoNET, nicht Teil der AGPL"
+  },
+  {
+   "was": "Lizenztexte",
+   "zweck": "",
+   "quelle": "erzeugt vom Herkunfts-Bot aus den installierten Paketen",
+   "lizenz": "Lizenztexte der Pakete"
+  },
+  {
+   "was": "Server-Einstellungen",
+   "zweck": "",
+   "quelle": "eigene Datei",
+   "lizenz": "AGPL-3.0-or-later"
+  }
+ ],
+ "texturen": {
+  "quelle": "https://ambientcg.com",
+  "lizenz": "CC0-1.0",
+  "sets": [
+   {
+    "id": "Cardboard004",
+    "zweck": "Karton"
+   },
+   {
+    "id": "Concrete030",
+    "zweck": "Betonwände"
+   },
+   {
+    "id": "Fabric030",
+    "zweck": "Stoff Bürostuhl"
+   },
+   {
+    "id": "Fingerprints002",
+    "zweck": "Fingerabdrücke"
+   },
+   {
+    "id": "Metal009",
+    "zweck": "gebürsteter Stahl"
+   },
+   {
+    "id": "Metal027",
+    "zweck": "lackierter Stahl, Racks"
+   },
+   {
+    "id": "PaintedMetal004",
+    "zweck": "Feuerlöscher"
+   },
+   {
+    "id": "PaintedPlaster017",
+    "zweck": "Decke"
+   },
+   {
+    "id": "PavingStones070",
+    "zweck": "Pflaster draussen"
+   },
+   {
+    "id": "Plastic012A",
+    "zweck": "Kunststoffe, Tisch"
+   },
+   {
+    "id": "Plastic018A",
+    "zweck": "Doppelboden"
+   },
+   {
+    "id": "SheetMetal002",
+    "zweck": "Lochplatten"
+   },
+   {
+    "id": "Smear004",
+    "zweck": "Glas"
+   },
+   {
+    "id": "SurfaceImperfections015",
+    "zweck": "Laufspuren"
+   }
+  ]
+ }
+}

@@ -1,0 +1,7 @@
+name: Idee
+description: Vorschlag für Spiel, Unterricht oder Aufgaben
+labels: [enhancement]
+body:
+  - type: textarea
+    attributes: { label: Vorschlag, description: "Was soll möglich sein und wozu?" }
+    validations: { required: true }

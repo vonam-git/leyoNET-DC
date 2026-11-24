@@ -1,0 +1,50 @@
+# Release: Tag v1.2.3 auf main -> pruefen, bauen, ENTWURF eines GitHub-Release (veroeffentlicht wird von Hand).
+name: Release
+on:
+  push:
+    tags: ['v*.*.*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: game/package-lock.json
+      - name: Tag passt zur Version und liegt auf main
+        run: |
+          [ "v$(node -p "require('./game/package.json').version")" = "$GITHUB_REF_NAME" ]
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - run: npm ci --no-audit --no-fund
+        working-directory: game
+      - name: Musterloesungen (Secret, fehlt bei Forks -> diese Tests werden uebersprungen)
+        env:
+          DC_LOESUNGEN_JSON: ${{ secrets.DC_LOESUNGEN }}
+        run: if [ -n "$DC_LOESUNGEN_JSON" ]; then mkdir -p privat && printf '%s' "$DC_LOESUNGEN_JSON" > privat/loesungen.json; fi
+      - run: node scripts/herkunft-bot.mjs --check
+      - run: npm run check && npm run build && npm run build:server
+        working-directory: game
+      - run: node --test server/*.test.mjs
+      - name: Pakete
+        run: |
+          mkdir out
+          cp LICENSE NOTICE.md game/dist/
+          cp LICENSE NOTICE.md server/
+          (cd game/dist && zip -qr "../../out/leyonet-dc-$GITHUB_REF_NAME-web.zip" .)
+          tar -czf "out/leyonet-dc-$GITHUB_REF_NAME-server.tar.gz" -C server app.cjs start.cjs replay-worker.cjs kern.cjs package.json LICENSE NOTICE.md
+          # vollstaendiger Quelltext samt Submodul (AGPL): das Archiv von GitHub enthaelt Submodule nicht
+          git ls-files -z --recurse-submodules | tar --null -czf "out/leyonet-dc-$GITHUB_REF_NAME-quelltext.tar.gz" --transform "s,^,leyonet-dc-$GITHUB_REF_NAME/," -T -
+          (cd out && sha256sum * > SHA256SUMS)
+          awk -v v="## ${GITHUB_REF_NAME#v} " 'index($0,v)==1{p=1;next} /^## /{p=0} p' CHANGELOG.md > notes.md
+          test -s notes.md
+      - name: Entwurf anlegen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" out/* --draft --verify-tag --title "leyoNET DC ${GITHUB_REF_NAME#v}" --notes-file notes.md

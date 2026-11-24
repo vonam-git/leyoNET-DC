@@ -1,0 +1,4 @@
+[submodule "vendor/leyonet"]
+	path = vendor/leyonet
+	url = https://github.com/vonam-git/leyoNET.git
+	branch = develop

@@ -1,0 +1,52 @@
+{
+  "name": "room_v3",
+  "groups": {
+    "room": {
+      "objects": 17,
+      "png": "assets/build/room_v3/LM_room.png",
+      "res": 2048,
+      "samples": 64,
+      "scale": 52.92623870849705,
+      "coverage": 0.5385076999664307,
+      "mean_encoded": 0.07359512895345688,
+      "clipped_frac": 0.005878251090799211,
+      "denoised": true
+    },
+    "desk_1": {
+      "objects": 5,
+      "png": "assets/build/room_v3/LM_desk_1.png",
+      "res": 512,
+      "samples": 64,
+      "scale": 1.4301883161067968,
+      "coverage": 0.3200187683105469,
+      "mean_encoded": 0.4757349491119385,
+      "clipped_frac": 0.015138691873979331,
+      "denoised": true
+    },
+    "outside": {
+      "objects": 1,
+      "png": "assets/build/room_v3/LM_outside.png",
+      "res": 512,
+      "samples": 64,
+      "scale": 2.0943744778633118,
+      "coverage": 0.6701507568359375,
+      "mean_encoded": 0.8112529516220093,
+      "clipped_frac": 0.03451239782326556,
+      "denoised": true
+    },
+    "props": {
+      "objects": 10,
+      "png": "assets/build/room_v3/LM_props.png",
+      "res": 512,
+      "samples": 64,
+      "scale": 3.3532989883422735,
+      "coverage": 0.10342788696289062,
+      "mean_encoded": 0.3020314574241638,
+      "clipped_frac": 0.005495518754840851,
+      "denoised": true
+    }
+  },
+  "raw_glb": "assets/out/room_v3.raw.glb",
+  "optimize": "npx gltf-transform optimize assets/out/room_v3.raw.glb assets/out/room_v3.opt.glb --compress false --texture-compress false --join false --palette false --instance false && nice -n 19 npx gltf-transform uastc assets/out/room_v3.opt.glb assets/out/room_v3.opt.glb --slots normalTexture --level 2 --zstd 18 --jobs 2 && nice -n 19 npx gltf-transform etc1s assets/out/room_v3.opt.glb assets/out/room_v3.opt.glb --slots '!normalTexture' --jobs 2 && npx gltf-transform draco assets/out/room_v3.opt.glb assets/out/room_v3.glb && rm assets/out/room_v3.opt.glb",
+  "room_manifest": "assets/out/room_v3.manifest.json"
+}

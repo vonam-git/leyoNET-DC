@@ -1,0 +1,25 @@
+{
+  "name": "leyonet-dc-game",
+  "version": "1.0.0",
+  "description": "leyoNET DC - Datacenter-Simulator",
+  "scripts": {
+    "predev": "node scripts/copy-decoders.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/copy-decoders.mjs",
+    "build": "vite build",
+    "build:server": "esbuild src/server-kern.js --bundle --platform=node --format=cjs --target=node22 --loader:.json=json --outfile=../server/kern.cjs --log-level=warning",
+    "preview": "vite preview",
+    "check": "node scripts/check-version.mjs && node scripts/check-character.mjs && node scripts/check-room.mjs && node scripts/check-cables.mjs && node scripts/check-kern.mjs && tsx scripts/check-core.ts && tsx scripts/check-embedded.ts && tsx scripts/check-levels.ts && tsx scripts/check-install.ts && tsx scripts/check-plan.ts && tsx scripts/check-desk.ts && tsx scripts/check-verbund.ts && tsx scripts/check-save.ts"
+  },
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15",
+    "vite": "8.3.5"
+  },
+  "private": true,
+  "type": "module",
+  "author": "Mark v. A. (https://vonam.ch)"
+}

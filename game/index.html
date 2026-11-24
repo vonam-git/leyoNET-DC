@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>leyoNET DC</title>
+    <meta name="description" content="leyoNET DC: Datacenter-Simulator für den Informatik-Unterricht. Racks bauen, verkabeln und konfigurieren, im Browser." />
+    <meta name="author" content="Mark v. A." />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <!-- Designsystem: src/style.css (wird von main.js importiert) -->
+  </head>
+  <body>
+    <div id="loading">
+      <div class="box">
+        <div class="logo">leyo<span>NET</span> DC</div>
+        <div class="bar"><i></i></div>
+        <div class="hint">Serverraum wird geladen …</div>
+      </div>
+    </div>
+    <div id="goals" class="glass"></div>
+    <div id="toasts"></div>
+    <div id="crosshair"></div>
+    <div id="prompt" class="glass"></div>
+    <div id="hotbar"></div>
+    <div id="minimap" class="glass" title="Minikarte (M): Raum / Netzplan / aus"><canvas></canvas><i></i></div>
+    <div id="timer" class="glass" hidden></div>
+    <button id="verbund" class="glass" hidden></button>
+    <div id="observed" class="glass" hidden>Die Lehrperson schaut gerade zu.</div>
+    <div id="classlock" hidden><div class="ui-win done-box" style="height:auto"><h2>Angehalten</h2><p></p></div></div>
+    <div id="fps" class="glass" hidden></div>
+    <div id="hud" class="glass" hidden>
+      <div id="hud-keys"></div>
+      <span id="state"></span>
+    </div>
+    <div id="source">leyoNET-DC · AGPL-3.0 · <a href="https://github.com/vonam-git/leyoNET-DC" target="_blank" rel="noopener">Quelltext</a></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
