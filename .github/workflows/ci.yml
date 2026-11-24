@@ -1,8 +1,8 @@
-# Spiel-Checks + Build bei jedem Push auf develop und jedem PR (inkl. Bot-PRs des leyoNET-Syncs).
+# Spiel-Checks + Build bei jedem Push auf develop und main und jedem PR (inkl. Bot-PRs des leyoNET-Syncs). Deploy nur von develop.
 name: CI
 on:
   push:
-    branches: [develop]
+    branches: [develop, main]
   pull_request: {}
   workflow_dispatch: {}   # Knopf erscheint erst, wenn diese Datei auch auf main liegt
 jobs:
