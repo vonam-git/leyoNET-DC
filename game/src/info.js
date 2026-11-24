@@ -7,7 +7,7 @@ export const VERSION = '1.0.0';
 
 /** Versionsliste (neueste zuerst) */
 export const CHANGES = [
-  { v: '1.0.0', date: '2026-11-24', items: ['Erste vollständige Version: 7 Levels, 5 Verbundaufgaben, Klassen mit Admin-Board, Spielstände', 'Lizenz- und Urheberangaben im Spiel, Aufräumen des Quelltexts'] },
+  { v: '1.0.0', date: '2026-11-24', items: ['Erste vollständige Version: 7 Levels, 5 Verbundaufgaben, Klassen mit Admin-Board, Spielstände', 'Lizenz- und Urheberangaben im Spiel, Aufräumen des Quelltexts', 'Startbildschirm: Projekt unterstützen'] },
   { v: '0.0.15', date: '2026-11-24', items: ['Zurück-Knöpfe: von der Level-Auswahl zum Startbildschirm, vom Level-Start zur Auswahl'] },
   { v: '0.0.14', date: '2026-11-24', items: ['ping an der Konsole von Router, Core-Switch und Firewall zeigt das Ergebnis', 'show an der Konsole zeigt den laufenden Zustand: gelernte Routen (OSPF, BGP), Nachbarn, DHCP-Adressen'] },
   { v: '0.0.13', date: '2026-11-24', items: ['Spielstände: mit Klasse auf dem Server, sonst oder wenn zu gross als Datei; jederzeit wieder öffnen', 'Willkommensmenü und Hilfe',
@@ -116,7 +116,7 @@ export const DATENSCHUTZ = [
   P('Löschung: jederzeit selbst mit «Klasse verlassen und Daten löschen», sonst automatisch drei Monate nach dem eingestellten Semesterende. Das '
     + 'Protokoll der Lehrpersonen-Aktionen (Konto, Aktion, Klasse oder Pseudonym) wird nach zwei Jahren gelöscht.'),
   H('Links'),
-  P('Erst ein Klick auf «Quelltext» verbindet den Browser mit GitHub (GitHub Inc., USA), ein Klick auf «Unterstützen» mit Patreon '
+  P('Erst ein Klick auf «Quelltext» verbindet den Browser mit GitHub (GitHub Inc., USA), ein Klick auf «Unterstützen» oder «Projekt unterstützen» mit Patreon '
     + '(Patreon Inc., USA) und ein Klick auf «vonam.ch» oder «leyonet.ch» mit diesen Seiten. Die angeklickte Seite erhält dabei technisch '
     + 'bedingt die IP-Adresse und die Browserkennung, und es gelten ihre eigenen Datenschutzbestimmungen. Eingebunden wird nichts davon.'),
 ];
