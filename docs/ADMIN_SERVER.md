@@ -8,7 +8,7 @@ Browser ── /index.html, /admin.html, /assets  ──► Webserver (Dokuments
         └─ /api/…                             ──► Node.js-App (Passenger) ──► DATA_DIR (JSON-Dateien)
 ```
 
-## Einmalig in Plesk einrichten (Subdomain dev-dc.leyonet.ch)
+## Einmalig in Plesk einrichten (Subdomain dc.leyonet.ch)
 
 Plesk verlangt: Der **Dokumentstamm liegt im Anwendungsstamm** (wie bei leyoNET: `server` und `server/public`). Darum zieht die Seite in
 `dc-server/public` um; das alte Verzeichnis bleibt bis zum Schluss bestehen.
@@ -33,8 +33,8 @@ Plesk verlangt: Der **Dokumentstamm liegt im Anwendungsstamm** (wie bei leyoNET:
    | `DC_ADMIN_INVITE` | zufälliger Text, mindestens 16 Zeichen: einmalige Einladung für den ersten Admin |
    | `MAX_PLAYERS` | optional, Standard 3000 |
 
-4. Prüfen: `https://dev-dc.leyonet.ch/api/status` liefert `{"app":"leyonet-dc",…,"ready":true}`, `/` zeigt das Spiel, `/app.cjs` gibt 404.
-5. `https://dev-dc.leyonet.ch/admin.html` → «Ich habe eine Einladung» → Passwort (mind. 12 Zeichen) → QR-Code mit der
+4. Prüfen: `https://dc.leyonet.ch/api/status` liefert `{"app":"leyonet-dc",…,"ready":true}`, `/` zeigt das Spiel, `/app.cjs` gibt 404.
+5. `https://dc.leyonet.ch/admin.html` → «Ich habe eine Einladung» → Passwort (mind. 12 Zeichen) → QR-Code mit der
    Authenticator-App scannen → acht Wiederherstellungscodes ablegen. Danach `DC_ADMIN_INVITE` in Plesk löschen und App neu starten.
 6. Webserver-Protokolle kurz halten (Datenschutzerklärung nennt 7 Tage) und `dc-data` in die Sicherung aufnehmen
    (Rotation höchstens 30 Tage, Konzept Kap. 8). Das alte Verzeichnis der Seite erst löschen, wenn alles läuft.
@@ -74,6 +74,7 @@ wird damit nicht erkannt – für Noten taugen die Zeiten nicht.
 | Verbundaufgabe: Spielschritte, Netze | Arbeitsspeicher | höchstens 24 h (12 h unbenutzt) bzw. bis Neustart |
 | Verbundaufgabe: Platznummer, Abnahme-Ergebnis | `DATA_DIR/classes` | wie Klasse |
 | Spielstände (höchstens 5 je Pseudonym, je 128 KB, zusammen 256 MB) | `DATA_DIR/saves`, verschlüsselt mit `secret.key` | bis selbst gelöscht, sonst mit dem Pseudonym |
+| Statistik: Summen und Tageswerte (Spielstarts, Beitritte, Levels, Abnahmen, Spitze online), ohne Personenbezug | `DATA_DIR/stats.json` | Tageswerte 400 Tage, Summen unbegrenzt |
 | Audit-Log (Konto, Aktion, Klasse/Pseudonym) | `DATA_DIR/audit` | 2 Jahre |
 | IP-Adressen, Namen, E-Mail, Cookies | nirgends | – |
 
@@ -89,6 +90,11 @@ Sandbox und Demo-RZ (unbegrenztes Budget) sind sichtbar, aber gesperrt. Zwei Cod
 (`game/src/freischaltung.json`). Neu erzeugen, ohne den anderen zu ändern: `cd game && node scripts/freischalt-codes.mjs weitergabe`
 (eigenes Passwort: `--eigen`), danach committen; wer den alten Code benutzt hat, ist wieder gesperrt. Grenze: Das Spiel läuft im Browser und ist
 quelloffen, wer es selbst ändert, umgeht die Sperre.
+
+## Statistik (2026-11-24)
+
+Admin-Board → Statistik. Lehrpersonen sehen ihre Klassen, der Admin alles. «Spieler insgesamt» zählt jeden Beitritt, auch später gelöschte; beim ersten Start
+werden die vorhandenen Spieler und Ergebnisse übernommen. «Spielstarts» zählt Abrufe von `/api/status` (ein Aufruf je geladenem Spiel, keine Personen).
 
 ## Musterlösungen
 

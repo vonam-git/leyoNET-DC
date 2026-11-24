@@ -3,6 +3,7 @@
 import { qrMatrix, qrPath } from '../../vendor/leyonet/src/ui/qr.ts';
 import favicon from '../../vendor/leyonet/branding/favicon.svg?url';
 import { VERSION } from './info.js';
+import { statsPanel } from './admin-statistik.js';
 import { verbundPanel } from './admin-verbund.js';
 import { drawPlan, fitView, planModel, THEME } from './netplan.js';
 import { formatTime } from './timer.js';
@@ -168,13 +169,13 @@ async function start() {
 function frame(content) {
   clearInterval(poll);
   const nav = (name, label) => el('button', { class: view.name === name || (name === 'klassen' && view.name === 'klasse') ? 'on' : '', onclick: () => { view = { name }; render(); } }, label);
-  app.replaceChildren(el('header', { class: 'adm-top' }, brand(), el('nav', {}, nav('klassen', 'Klassen'), me.role === 'admin' ? nav('konten', 'Konten') : null, nav('protokoll', 'Protokoll'), nav('hilfe', 'Erste Schritte')),
+  app.replaceChildren(el('header', { class: 'adm-top' }, brand(), el('nav', {}, nav('klassen', 'Klassen'), nav('statistik', 'Statistik'), me.role === 'admin' ? nav('konten', 'Konten') : null, nav('protokoll', 'Protokoll'), nav('hilfe', 'Erste Schritte')),
     el('span', { class: 'sp' }), el('span', { class: 'muted' }, `${me.user} · ${me.role === 'admin' ? 'Admin' : 'Lehrperson'} · v${VERSION}`),
     button('Abmelden', async () => { try { await post('logout'); } catch { /* egal */ } setToken(null); loginView(); }, 'secondary')), el('main', { class: 'adm-main' }, content));
   return content;
 }
 function render() {
-  ({ klassen: classesView, klasse: classView, konten: accountsView, protokoll: auditView, hilfe: helpView })[view.name]();
+  ({ klassen: classesView, klasse: classView, konten: accountsView, protokoll: auditView, hilfe: helpView, statistik: statsView })[view.name]();
 }
 const loading = () => frame(el('p', { class: 'muted' }, 'Wird geladen …'));
 
@@ -316,6 +317,17 @@ async function accountsView() {
       el('td', {}, a.role === 'admin' ? null : el('div', { class: 'row' }, sure('Zurücksetzen', 'Neu einladen?', () => act(() => post(`accounts/${a.id}/reset`))), sure('Löschen', 'Wirklich löschen?', () => act(() => post(`accounts/${a.id}/delete`)))))))))));
 }
 
+// ---------- Statistik ----------
+async function statsView() {
+  loading();
+  const root = frame(el('div'));
+  const load = async () => {
+    try { const d = await get('stats'); if (root.isConnected) root.replaceChildren(statsPanel({ el, formatTime, day }, d)); } catch (e) { if (root.isConnected && !root.childElementCount) root.replaceChildren(el('p', {}, errText(e))); }
+  };
+  await load();
+  poll = setInterval(() => { if (!document.hidden && root.isConnected && !root.contains(document.activeElement) && !root.querySelector('.st-col:hover')) load(); }, 30_000);
+}
+
 // ---------- Protokoll ----------
 const ACTION = { login: 'Anmeldung', 'login.recovery': 'Anmeldung mit Wiederherstellungscode', 'account.activated': 'Zugang eingerichtet', 'account.create': 'Konto angelegt', 'account.reset': 'Konto zurückgesetzt', 'account.delete': 'Konto gelöscht',
   'class.create': 'Klasse eröffnet', 'class.settings': 'Klasse eingestellt', 'class.start': 'Klassenstart', 'class.stopp': 'Zwischenstopp', 'class.schluss': 'Schluss', 'class.delete': 'Klasse gelöscht', 'class.expired': 'Klasse abgelaufen, gelöscht', 'class.csv': 'CSV heruntergeladen',
@@ -337,6 +349,7 @@ function helpView() {
   el('h3', {}, 'Verbundaufgaben'), el('ol', {}, ['In der Klasse eine der fünf Aufgaben (★ bis ★★★★★) freigeben. Wer den Klassencode eingegeben hat, sieht sie sofort im Spiel (Taste J).', 'Jeder Platz bekommt einen Standort mit eigenen Adressen; abgeschriebene Konfigurationen funktionieren nicht.',
     'Das Dashboard auf den Beamer legen: Der Server spielt jeden Standort nach und setzt den ganzen Verbund zusammen. Grün wird nur, was wirklich läuft.', '«Abnahme starten» prüft alle Anforderungen frisch und hält das Ergebnis fest (auch im CSV). Ein Klick auf einen Standort zeigt Ziele, Netzplan und Musterlösung.'].map((t) => el('li', {}, t))),
   el('h3', {}, 'Was geprüft ist'), el('p', {}, 'Ein Level zählt erst, wenn der Server die Spielschritte im selben Simulator nachgespielt hat; auch die Zeit misst der Server. Die Anzeige x/y des laufenden Versuchs meldet dagegen das Spiel selbst.'),
+  el('h3', {}, 'Statistik'), el('p', {}, 'Zahlen zu Spielern, Levels und Verbundaufgaben deiner Klassen. Der Admin sieht zusätzlich Spielstarts und Summen des ganzen Servers. Wer ohne Klasse spielt, wird nur als Spielstart gezählt.'),
   el('h3', {}, 'Datenschutz'), el('p', {}, 'Keine Namen, keine E-Mail-Adressen, keine IP-Adressen. Trage auch in Bezeichnungen keine Personennamen ein. Alles wird drei Monate nach dem Semesterende gelöscht.'),
   el('p', { class: 'muted' }, `Du hast noch ${me.recovery} Wiederherstellungscodes.`)));
 }

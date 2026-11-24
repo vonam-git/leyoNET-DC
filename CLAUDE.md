@@ -58,7 +58,7 @@ Vor dem Export gilt weiterhin: Polycount-Limits und bake.py-Regeln von oben.
 ## Git-Workflow (ab sofort verbindlich)
 
 - Remote: origin = git@github.com:vonam-git/leyoNET-DC.git
-- Arbeitsbranch: develop (wird auf dev-dc deployt). ALLE Commits und Pushes
+- Arbeitsbranch: develop (geht NICHT live; live auf dc.leyonet.ch geht nur main, User 2026-11-24). ALLE Commits und Pushes
   gehen auf develop: git checkout develop && git push origin develop
 - main nur via Pull Request develop -> main (Branch-Schutz, KONZEPT Kap. 11).
   NIE direkt auf main committen oder pushen, keine Merges nach main ohne

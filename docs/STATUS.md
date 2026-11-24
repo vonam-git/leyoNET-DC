@@ -1,4 +1,6 @@
-# Status - Stand 2026-11-24 (v1.0.0)
+# Status - Stand 2026-11-24 (v1.1.0)
+
+- v1.1.0: Statistik im Admin-Board (`/api/admin/stats`, `admin-statistik.js`, `stats.json`), Versionsnummer im Startbildschirm -> admin.html. Live geht nur `main`.
 
 - Release v1.0.0 vorbereitet: README, NOTICE (Copyright Mark v. A.), CHANGELOG, CONTRIBUTING, SECURITY, Vorlagen, Workflow `release.yml` (Tag -> Entwurf).
 - Aus dem Repo genommen (lokal vorhanden): character.glb (Mixamo), alte Testraeume, Referenzfotos ohne Quelle. Alte Plaene in docs/archiv/.

@@ -12,7 +12,7 @@ html:has(body.admin), body.admin { height: auto; min-height: 100%; overflow: aut
 .adm-secret { font-size: 14px; overflow-wrap: anywhere; }
 .adm-codes { font: 16px/1.7 var(--code); columns: 2; padding: 14px 18px; margin: 0; background: var(--canvas); border: 1px solid var(--line); border-radius: 8px; }
 .adm-top { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; padding: 10px 20px; background: var(--paper); border-bottom: 1px solid var(--line); }
-.adm-top .sp { flex: 1; } .adm-top nav { display: flex; gap: 2px; }
+.adm-top .sp { flex: 1; } .adm-top nav { display: flex; flex-wrap: wrap; gap: 2px; }
 .adm-top nav button { all: unset; cursor: pointer; padding: 10px 12px; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; }
 .adm-top nav button:hover { color: var(--ink); } .adm-top nav button.on { color: var(--ink); border-color: var(--ink); } .adm-top nav button:focus-visible { outline: 3px solid var(--focus); }
 .adm-main { max-width: 1240px; margin: 0 auto; padding: 26px 20px 60px; }
@@ -71,3 +71,19 @@ html:has(body.admin), body.admin { height: auto; min-height: 100%; overflow: aut
 .admin .ui-overlay { z-index: 30; } .vbd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .vbd-detail pre { font: 12.5px/1.45 var(--code); background: var(--canvas); padding: 10px 12px; border-radius: 8px; overflow: auto; } .ui-overlay.over .adm-dialog { width: min(1120px, 96vw); }
 @media (max-width: 900px) { .vbd { overflow: auto; } .vbd main.alles, .vbd-matrix, .vbd-cols { grid-template-columns: 1fr; } .vbd-mapbox { min-height: 300px; } }
 @media (prefers-reduced-motion: reduce) { .vbd-map .flow, .vbd-map .ring, .vbd-map .partner { animation: none; } .vbd-tile, .vbd-progress i { transition: none; } }
+
+/* Statistik (2026-11-24) */
+.admin { --chart: #1d5fd6; } @media (prefers-color-scheme: dark) { .admin { --chart: #4b8bf0; } }
+.admin h2 { font: 700 22px/1.1 var(--mono); letter-spacing: -0.03em; color: var(--ink); margin: 34px 0 10px; }
+.st-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 46%), 1fr)); gap: 12px; margin: 16px 0 24px; }
+.st-tile { display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+.st-tile span { color: var(--muted); font-size: 13.5px; font-weight: 600; } .st-tile b { font: 700 32px/1.1 var(--mono); letter-spacing: -0.03em; color: var(--ink); } .st-tile small { color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+.st-charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 16px; }
+.st-chart { margin: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; min-width: 0; } .st-chart figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; } .st-chart figcaption b { color: var(--ink); } .st-chart figcaption span { color: var(--muted); font-size: 13px; }
+.st-plot { position: relative; margin-top: 8px; } .st-plot svg { display: block; width: 100%; height: auto; }
+.st-mark { fill: var(--chart); } .st-grid { stroke: var(--line); stroke-width: 1; } .st-axis { stroke: var(--graphite); stroke-width: 1; } .st-tick { fill: var(--muted); font: 11px var(--sans); font-variant-numeric: tabular-nums; }
+.st-col { fill: transparent; outline: none; } .st-col:hover, .st-col:focus-visible { fill: color-mix(in srgb, var(--chart) 12%, transparent); }
+.st-tip { position: absolute; top: 0; transform: translateX(-50%); display: flex; gap: 8px; align-items: baseline; padding: 4px 10px; border-radius: 6px; background: var(--ink); color: var(--on-ink); font-size: 13px; white-space: nowrap; pointer-events: none; } .st-tip[hidden] { display: none; }
+.st-chart details { margin-top: 6px; font-size: 13px; color: var(--muted); } .st-chart summary { cursor: pointer; }
+.st-table td { font-variant-numeric: tabular-nums; } .st-bar { width: 110px; height: 10px; border-radius: 3px; background: color-mix(in srgb, var(--chart) 14%, var(--paper)); overflow: hidden; } .st-bar i { display: block; height: 100%; border-radius: 0 3px 3px 0; background: var(--chart); }
+.st-foot { font-size: 13px; margin: 14px 0 0; max-width: 90ch; }

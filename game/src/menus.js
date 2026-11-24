@@ -36,7 +36,9 @@ export function openWelcome(ui, { settings, levels, open, openSettings, openHelp
     el('h3', {}, 'So geht es'), el('ol', {}, ...W.schritte.map((t) => el('li', {}, ...rich(settings, t)))),
     el('h3', {}, 'Tastenhinweise'),
     toggle('Tastenhinweise einblenden', rich(settings, W.hinweis), settings.hints, (v) => settings.set('hints', v)),
-    el('p', { class: 'muted' }, W.touch));
+    el('p', { class: 'muted' }, W.touch),
+    // unauffaellig: die Versionsnummer fuehrt ins Admin-Board (Anmeldung dort mit Passwort + Authenticator-App)
+    el('p', { class: 'welcome-foot' }, 'leyoNET DC ', el('a', { href: './admin.html', target: '_blank', rel: 'noopener', title: 'Für Lehrpersonen' }, VERSION)));
   const w = ui._win('Willkommen', { Willkommen: body }, { icon: 'ly', sub: `${W.titel} · ${VERSION}` });
   ui._show(w.win);
   w.select('Willkommen');

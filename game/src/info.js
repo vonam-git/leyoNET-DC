@@ -3,10 +3,11 @@
 // uebernommen (User-Entscheid 2026-11-20). Angaben vom User (2026-11-24) -
 // hier werden KEINE Adressdaten erfunden. Der DC-Abschnitt beschreibt nur, was dieses Spiel wirklich speichert.
 
-export const VERSION = '1.0.0';
+export const VERSION = '1.1.0';
 
 /** Versionsliste (neueste zuerst) */
 export const CHANGES = [
+  { v: '1.1.0', date: '2026-11-24', items: ['Admin-Board: Statistik mit Spielern, Spielstarts, Levels, Verbundaufgaben und Klassen'] },
   { v: '1.0.0', date: '2026-11-24', items: ['Erste vollständige Version: 7 Levels, 5 Verbundaufgaben, Klassen mit Admin-Board, Spielstände', 'Lizenz- und Urheberangaben im Spiel, Aufräumen des Quelltexts', 'Startbildschirm: Projekt unterstützen'] },
   { v: '0.0.15', date: '2026-11-24', items: ['Zurück-Knöpfe: von der Level-Auswahl zum Startbildschirm, vom Level-Start zur Auswahl'] },
   { v: '0.0.14', date: '2026-11-24', items: ['ping an der Konsole von Router, Core-Switch und Firewall zeigt das Ergebnis', 'show an der Konsole zeigt den laufenden Zustand: gelernte Routen (OSPF, BGP), Nachbarn, DHCP-Adressen'] },
@@ -105,6 +106,8 @@ export const DATENSCHUTZ = [
     + 'Server; er prüft sie und behält sie nicht (ausser in einem Spielstand, den du selbst speicherst). Bitte in der Simulation keine echten Passwörter verwenden.'),
   P('Die Lehrperson sieht, wer online ist, welches Level läuft und wie viele Ziele erreicht sind, und kann deinen Netzplan live ansehen. Das Spiel zeigt '
     + 'an, solange jemand zuschaut. Der Live-Stand liegt nur im Arbeitsspeicher.'),
+  P('Statistik: Der Server zählt, wie oft das Spiel geladen wird, wie viele beitreten, wie viele Levels und Abnahmen bestanden werden und wie viele gleichzeitig '
+    + 'online sind. Das sind reine Zahlen je Tag (400 Tage) ohne Bezug zu einer Person; auch wer ohne Klasse spielt, wird nur so mitgezählt.'),
   P('Der Server speichert keine IP-Adressen und setzt keine Cookies. Gegen Missbrauch zählt er Anfragen mit einem gesalzenen Hash der Adresse, nur kurz im '
     + 'Arbeitsspeicher. Im Browser liegen dein Zugang und dein eigener Code (localStorage, «leyonet-dc.klasse»), bis du dich abmeldest.'),
   P('Verbundaufgaben: Gibt die Lehrperson eine Verbundaufgabe frei und beginnst du sie, schickt das Spiel deine Spielschritte laufend an den Server, '

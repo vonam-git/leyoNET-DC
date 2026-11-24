@@ -200,6 +200,32 @@ test('Live-Beobachtung nur auf Anfrage und nur im Speicher', async () => {
   assert.equal((await post('/api/beat', {}, ctx.p.token)).json.observe, false);
 });
 
+test('Statistik: nur Zahlen, Rechte, Summen und Tageswerte', async () => {
+  assert.equal((await get('/api/admin/stats')).status, 401);
+  assert.equal((await get('/api/admin/stats', ctx.p.token)).status, 401, 'Spieler sehen nichts');
+  const before = (await get('/api/admin/stats', ctx.admin)).json;
+  assert.equal(before.role, 'admin');
+  assert.equal(before.server.total.joins, before.players.now + 1, 'insgesamt zählt auch das gelöschte Pseudonym');
+  assert.equal(before.server.days.length, 30);
+  const today = before.server.days.at(-1);
+  assert.equal(today.levels, before.server.total.levels);
+  assert.deepEqual([before.server.total.levels, before.levels.find((l) => l.id === 'L1').count, before.levels.find((l) => l.id === 'L1').players], [3, 3, 1]);
+  assert.equal(before.levels.find((l) => l.id === 'L1').ready.best, 42_000);
+  await get('/api/status');
+  await get('/api/status');
+  const after2 = (await get('/api/admin/stats', ctx.admin)).json;
+  assert.equal(after2.server.total.starts, before.server.total.starts + 2);
+  const lp = (await get('/api/admin/stats', ctx.lp1)).json;
+  assert.equal(lp.server, undefined, 'Lehrperson: keine Summen des Servers');
+  assert.equal(lp.byClass.length, 1);
+  const other = (await get('/api/admin/stats', ctx.lp2)).json;
+  assert.deepEqual([other.byClass.length, other.players.now, other.levels.find((l) => l.id === 'L1').count], [0, 0, 0], 'fremde Klassen zählen nicht');
+  const text = JSON.stringify(after2);
+  for (const bad of [ctx.p.name, ctx.p.token, ctx.cls.code, '10.0.0.']) assert.ok(!text.includes(bad), `gefunden: ${bad}`);
+  app._test.flushStats();
+  assert.equal(JSON.parse(fs.readFileSync(path.join(DIR, 'stats.json'), 'utf8')).total.starts, after2.server.total.starts);
+});
+
 test('CSV, neuer Code, Löschen auf Wunsch', async () => {
   const csv = await get(`/api/admin/classes/${ctx.cls.id}/csv`, ctx.lp1);
   assert.match(csv.headers.get('content-type'), /text\/csv/);
