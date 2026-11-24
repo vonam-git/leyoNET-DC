@@ -2,6 +2,12 @@
 
 Alle Versionen von leyoNET DC. Copyright © 2026 Mark v. A., AGPL-3.0-or-later.
 
+## 1.1.0 – 2026-11-24
+
+- Admin-Board: Statistik mit Spielern (jetzt, insgesamt, online, aktiv), Spielstarts, Levels, Verbundaufgaben, Klassen und Verlauf über 30 Tage; nur Zahlen
+- Live (dc.leyonet.ch) geht nur noch `main`
+- Unauffälliger Link vom Startbildschirm ins Admin-Board
+
 ## 1.0.0 – 2026-11-24
 
 Erste vollständige Version, spielbar auf <https://dc.leyonet.ch>.

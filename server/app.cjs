@@ -26,6 +26,7 @@ const VERSION = 1;
 const DAY = 86_400_000;
 const KEEP_AFTER_DAYS = 90; // Fortschritt: Semesterende + 3 Monate
 const AUDIT_MONTHS = 24;
+const STAT_DAYS = 400;
 const TOKEN_MS = 8 * 3_600_000;
 const IDLE_MS = 60 * 60_000;
 const ONLINE_MS = 45_000; // Lebenszeichen alle 15 s
@@ -193,6 +194,35 @@ function createApp(opts = {}) {
   }
   if (!accounts.some((a) => a.role === 'admin') && INVITE.length < 16) warnings.push('noch kein Admin: DC_ADMIN_INVITE setzen (mind. 16 Zeichen) und /admin.html öffnen');
 
+  // --- Statistik: nur Zahlen (Summen, Tageswerte 400 Tage), nie Personen, Pseudonyme oder Adressen ---
+  const STATS_FILE = path.join(DATA, 'stats.json');
+  const STAT_KEYS = ['starts', 'joins', 'levels', 'verbund'];
+  const zeros = () => Object.fromEntries(STAT_KEYS.map((k) => [k, 0]));
+  let stats = null;
+  try { stats = readJson(STATS_FILE); } catch { warnings.push('stats.json ist nicht lesbar – die Statistik beginnt neu'); }
+  if (!stats || typeof stats !== 'object' || !stats.total || !stats.days) { // erster Start: bisherige Spieler und Ergebnisse mitzählen
+    stats = { since: today(now()), total: zeros(), days: {} };
+    for (const c of classes.values()) for (const p of Object.values(c.players)) {
+      stats.total.joins++;
+      for (const r of Object.values(p.results)) stats.total.levels += r.count;
+      stats.total.verbund += Object.values(p.verbund ?? {}).filter((r) => r.passed).length;
+    }
+  }
+  let statsTimer = null;
+  function flushStats() { clearTimeout(statsTimer); statsTimer = null; try { writeJson(STATS_FILE, stats); } catch (e) { console.error('Statistik', e.message); } }
+  const statsSoon = () => { if (!statsTimer) { statsTimer = setTimeout(flushStats, 10_000); statsTimer.unref(); } };
+  const statDay = () => (stats.days[today(now())] ??= { ...zeros(), peak: 0 });
+  function bump(key) { stats.total[key]++; statDay()[key]++; statsSoon(); }
+  let peakAt = 0;
+  function notePeak() {
+    if (now() - peakAt < 15_000) return;
+    peakAt = now();
+    let n = 0;
+    for (const l of live.values()) if (now() - l.seen < ONLINE_MS) n++;
+    const d = statDay();
+    if (n > d.peak) { d.peak = n; statsSoon(); }
+  }
+
   // --- Aufräumen (Löschfristen) ---
   function cleanup() {
     const t = now();
@@ -204,6 +234,8 @@ function createApp(opts = {}) {
     const limit = new Date(t);
     limit.setUTCMonth(limit.getUTCMonth() - AUDIT_MONTHS);
     for (const f of fs.readdirSync(AUDIT)) if (f.slice(0, 7) < limit.toISOString().slice(0, 7)) fs.rmSync(path.join(AUDIT, f));
+    const oldest = today(t - STAT_DAYS * DAY);
+    for (const d of Object.keys(stats.days)) if (d < oldest) delete stats.days[d];
     for (const [k, b] of buckets) if (t - b.start > 900_000) buckets.delete(k);
     for (const [k, s] of sessions) if (t > s.expires || t - s.seen > IDLE_MS) sessions.delete(k);
     for (const [k, p] of pending) if (t > p.expires) pending.delete(k);
@@ -431,7 +463,10 @@ function createApp(opts = {}) {
   const routes = [];
   const on = (method, pattern, fn, max = MAX_BODY) => routes.push({ method, re: new RegExp(`^${pattern.replace(/:(\w+)/g, '(?<$1>[A-Za-z0-9_-]{1,40})')}$`), fn, max });
 
-  on('GET', '/api/status', () => ({ app: 'leyonet-dc', version: VERSION, classes: true, ready: fs.existsSync(KERN), saveMax: MAX_SAVE }));
+  on('GET', '/api/status', (req) => {
+    if (count(ipKey(req, 'start')) <= 120) bump('starts'); // ein Aufruf je geladenem Spiel, nur gezählt
+    return { app: 'leyonet-dc', version: VERSION, classes: true, ready: fs.existsSync(KERN), saveMax: MAX_SAVE };
+  });
 
   // ---------- Spiel ----------
   on('POST', '/api/join', (req, b) => {
@@ -449,6 +484,7 @@ function createApp(opts = {}) {
     c.players[pid] = { name: pseudonym(new Set(Object.values(c.players).map((p) => p.name))), token: sha(token), code: sha(pcode), day: today(now()), locked: false, results: {} };
     index(c, pid);
     saveClass(c);
+    bump('joins');
     liveOf(pid).seen = now();
     return { token, code: `${pcode.slice(0, 5)}-${pcode.slice(5)}`, name: c.players[pid].name, class: publicClass(c) };
   });
@@ -501,6 +537,7 @@ function createApp(opts = {}) {
     p.results[key] = { best: record ? ms : old ? old.best : null, count: (old ? old.count : 0) + 1, day: today(now()) };
     p.day = today(now());
     saveClass(c);
+    bump('levels');
     Object.assign(l, { done: r.done, total: r.total });
     return { ok: true, ms, record, best: p.results[key].best, ...(run.resumed ? { resumed: true } : {}), ...(c.settings.leaderboard ? { top: leaderboard(c)[key] } : {}) };
   }, MAX_FINISH);
@@ -509,6 +546,7 @@ function createApp(opts = {}) {
     if (count(`beat:${pid}`) > 30) throw err(429, 'tooMany');
     const l = liveOf(pid);
     l.seen = now();
+    notePeak();
     if (b.total !== undefined) { // nur Anzeige im Admin-Board, zählt nicht als Ergebnis
       l.total = int(b.total, 0, 50, 'total');
       l.done = int(b.done, 0, l.total, 'done');
@@ -701,6 +739,32 @@ function createApp(opts = {}) {
     players: Object.keys(c.players).length, online: Object.keys(c.players).filter(online).length, open: classOpen(c),
     deleted: today(Date.parse(c.until) + (KEEP_AFTER_DAYS + 1) * DAY) });
   on('GET', '/api/admin/classes', (req) => { const a = account(req); return { classes: [...classes.values()].filter((c) => a.role === 'admin' || c.owner === a.id).map(classRow).sort((x, y) => x.label.localeCompare(y.label, 'de')) }; });
+  /** Statistik: Lehrpersonen sehen ihre Klassen, Admins alles und dazu die Summen des Servers. Nur Zahlen. */
+  on('GET', '/api/admin/stats', (req) => {
+    const a = account(req);
+    const mine = [...classes.values()].filter((c) => a.role === 'admin' || c.owner === a.id);
+    const since = (days) => today(now() - (days - 1) * DAY);
+    const all = mine.flatMap((c) => Object.entries(c.players));
+    const active = (list, days) => list.filter(([, p]) => p.day >= since(days)).length;
+    const median = (xs) => { if (!xs.length) return null; const s = [...xs].sort((x, y) => x - y); const m = s.length >> 1; return s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2); };
+    const bests = (k) => all.map(([, p]) => p.results[k]?.best).filter(Boolean);
+    const lv = levels().filter((l) => l.goals).map((l) => {
+      const keys = l.plan ? [l.id, `${l.id}+`] : [l.id];
+      const times = (k) => { const xs = bests(k); return { best: xs.length ? Math.min(...xs) : null, median: median(xs) }; };
+      return { id: l.id, title: l.title, players: all.filter(([, p]) => keys.some((k) => p.results[k])).length,
+        count: all.reduce((n, [, p]) => n + keys.reduce((m, k) => m + (p.results[k]?.count ?? 0), 0), 0), self: times(l.id), ready: l.plan ? times(`${l.id}+`) : null };
+    });
+    const out = { role: a.role, classes: { total: mine.length, open: mine.filter(classOpen).length }, players: { now: all.length, online: all.filter(([pid]) => online(pid)).length, active7: active(all, 7), active30: active(all, 30),
+      solved: all.filter(([, p]) => Object.keys(p.results).length).length }, levels: lv,
+    verbund: vbTasks().map((t) => ({ id: t.id, titel: t.titel, sterne: t.sterne, tried: all.filter(([, p]) => p.verbund?.[t.id]).length, passed: all.filter(([, p]) => p.verbund?.[t.id]?.passed).length })),
+    byClass: mine.map((c) => { const ps = Object.entries(c.players); return { id: c.id, label: c.label, owner: ownerName(c.owner), open: classOpen(c), players: ps.length, online: ps.filter(([pid]) => online(pid)).length, active7: active(ps, 7),
+      levels: ps.reduce((n, [, p]) => n + new Set(Object.keys(p.results).map((k) => k.replace('+', ''))).size, 0), verbund: ps.reduce((n, [, p]) => n + Object.values(p.verbund ?? {}).filter((r) => r.passed).length, 0) }; })
+      .sort((x, y) => x.label.localeCompare(y.label, 'de')) };
+    if (a.role !== 'admin') return out;
+    const days = Array.from({ length: 30 }, (_, i) => today(now() - (29 - i) * DAY));
+    return { ...out, server: { since: stats.since, total: stats.total, days: days.map((d) => ({ d, ...zeros(), peak: 0, ...stats.days[d] })), teachers: accounts.filter((x) => x.role !== 'admin' && x.pw).length,
+      saves: { players: fs.readdirSync(SAVES).filter((f) => f.endsWith('.json')).length, bytes: savesBytes, max: MAX_SAVES_TOTAL }, capacity: MAX_PLAYERS, solutions: !!loesungen(), uptime: Math.round(process.uptime()) } };
+  });
   on('POST', '/api/admin/classes', (req, b) => {
     const a = account(req);
     const label = str(b.label, LABEL, 'label');
@@ -835,6 +899,7 @@ function createApp(opts = {}) {
         const v = vbCurrent(c, live.get(pid));
         if (!v || !v.judged || v.judged.failed) continue;
         const done = v.judged.goals.filter((g) => g.done).length;
+        if (done === t.goals.length && !p.verbund?.[t.id]?.passed) bump('verbund');
         p.verbund = { ...(p.verbund ?? {}), [t.id]: { round, done, total: t.goals.length, passed: done === t.goals.length, sterne: t.sterne, missing: v.judged.goals.filter((g) => !g.done).map((g) => g.id), at: now(), ms: (v.doneAt ?? now()) - v.start } };
       }
       c.verbund.abnahme = now();
@@ -960,7 +1025,7 @@ function createApp(opts = {}) {
   const job = setInterval(cleanup, 3_600_000);
   job.unref();
   cleanup();
-  return { server, warnings, cleanup, DATA, _test: { hotp, base32, accounts: () => accounts, classes, live } };
+  return { server, warnings, cleanup, DATA, _test: { flushStats, stats: () => stats, hotp, base32, accounts: () => accounts, classes, live } };
 }
 
 module.exports = { createApp, hotp, base32, totpStep };

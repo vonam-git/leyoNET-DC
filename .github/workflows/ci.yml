@@ -1,4 +1,4 @@
-# Spiel-Checks + Build bei jedem Push auf develop und main und jedem PR (inkl. Bot-PRs des leyoNET-Syncs). Deploy nur von develop.
+# Spiel-Checks + Build bei jedem Push auf develop und main und jedem PR (inkl. Bot-PRs des leyoNET-Syncs). Live (dc.leyonet.ch) geht nur main.
 name: CI
 on:
   push:
@@ -34,16 +34,16 @@ jobs:
           npm --prefix game run build:server
           node --test server/*.test.mjs
 
-  # Deploy develop -> dev-dc als PULL (Entscheid 2026-11-20, Variante A): Port 22 des Servers ist fuer
-  # GitHub gesperrt und bleibt es. Die CI legt den Build als Release-Asset "dev-latest" ab, der Server
-  # holt ihn per Plesk-Cron (scripts/dev-dc-pull.sh, HTTPS ausgehend) - kein SSH, keine Secrets hier.
-  deploy-dev:
+  # Live-Deploy main -> dc.leyonet.ch als PULL (Entscheide 2026-11-20 und 2026-11-24): Port 22 des Servers ist fuer GitHub gesperrt
+  # und bleibt es. Die CI legt den Build ins Release "dev-latest" (Name aus der Anfangszeit, das Pull-Skript auf dem Server kennt ihn),
+  # der Server holt ihn per Plesk-Cron (scripts/dev-dc-pull.sh, HTTPS ausgehend) - kein SSH, keine Secrets hier.
+  deploy:
     needs: game
-    if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    concurrency: deploy-dev
+    concurrency: deploy
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,8 +73,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view dev-latest >/dev/null 2>&1 \
-            || gh release create dev-latest --prerelease --target "$GITHUB_SHA" --title "dev-dc (develop)" \
-                 --notes "Automatischer Build von develop fuer dev-dc.leyonet.ch. Wird bei jedem Lauf ersetzt."
+            || gh release create dev-latest --prerelease --target "$GITHUB_SHA" --title "Live (main)" --notes ""
+          gh release edit dev-latest --prerelease --title "Live (main)" \
+            --notes "Automatischer Build von main fuer dc.leyonet.ch, wird bei jedem Merge ersetzt. Versionen: siehe die Releases v*."
           # Paket zuerst, version.txt zuletzt: der Server laedt erst, wenn sich version.txt aendert
           gh release upload dev-latest dev-dc.tar.gz dev-dc.tar.gz.sha256 dev-dc-server.tar.gz dev-dc-server.tar.gz.sha256 --clobber
           gh release upload dev-latest version.txt --clobber
